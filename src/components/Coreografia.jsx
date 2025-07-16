@@ -16,30 +16,54 @@ function Coreografia(){
         return () => clearInterval(intervalo)
     }, [])
 
-    let usuario1 = "florencia" 
-    let usuario2 = "javier" 
-    let usuario3 = "kevin" 
-    let usuario4 = "luciano" 
-    let usuario5 = "carlos" 
-    let usuario6 = "luciana" 
-    let usuario7 = "ludmila" 
+    let usuario1 = "Florencia" 
+    let usuario2 = "Javier" 
+    let usuario3 = "Kevin" 
+    let usuario4 = "Luciano" 
+    let usuario5 = "Carlos" 
+    let usuario6 = "Luciana" 
+    let usuario7 = "Ludmila" 
 
-    if (hora > 16 || (hora === 16 && minuto > 30)) {
-        usuario1 = "ludmila"
-        usuario2 = "kevin"
-        usuario3 = "kevin" 
-        usuario4 = "luciano" 
-        usuario5 = "carlos" 
-        usuario6 = "luciana" 
-        usuario7 = "ludmila" 
-    } else if(hora > 8 || (hora === 8 && minuto > 50)){
-        usuario1 = "javier"
-        usuario2 = "florencia"
-        usuario3 = "javier" 
-        usuario4 = "luciano" 
-        usuario5 = "carlos" 
-        usuario6 = "luciana" 
-        usuario7 = "florencia" 
+    if (hora > 13 || (hora === 13 && minuto > 50)) {
+        usuario1 = "Carlos"
+        usuario2 = "Luciano"
+        usuario3 = "Kevin" 
+        usuario4 = "Javier" 
+        usuario5 = "Florencia" 
+        usuario6 = "Luciana" 
+        usuario7 = "Ludmila" 
+    }  else if(hora >12 || (hora === 12 && minuto > 30)){
+        usuario1 = "Kevin" 
+        usuario2 = "Ludmila" 
+        usuario3 = "Kevin" 
+        usuario4 = "Luciano" 
+        usuario5 = "Carlos" 
+        usuario6 = "Luciana" 
+        usuario7 = "Ludmila"
+    } else if(hora >11 ||(hora === 11 && minuto >10) ){
+        usuario1 = "Florencia" 
+        usuario2 = "Javier" 
+        usuario3 = "Kevin" 
+        usuario4 = "Luciano" 
+        usuario5 = "Carlos" 
+        usuario6 = "Luciana" 
+        usuario7 = "Ludmila"
+    } else if(hora > 9 || (hora === 9 && minuto > 50)){
+        usuario1 = "Kevin" 
+        usuario2 = "Ludmila" 
+        usuario3 = "Kevin" 
+        usuario4 = "Luciano" 
+        usuario5 = "Carlos" 
+        usuario6 = "Luciana" 
+        usuario7 = "Ludmila"
+    } else if (hora < 9 || (hora === 9 && minuto < 50)){
+        usuario1 = "Florencia" 
+        usuario2 = "Javier" 
+        usuario3 = "Kevin" 
+        usuario4 = "Luciano" 
+        usuario5 = "Carlos" 
+        usuario6 = "Luciana" 
+        usuario7 = "Ludmila"
     }
 
     return <>
