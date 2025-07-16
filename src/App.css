@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "Michroma";
+    src: url(../src/fonts/Michroma-Regular.ttf);
+}
+
+.marca{
+    font-family: "Michroma";
+}
+
+.fondo1{
+    background-color: blueviolet;
+    height: 250px;
+    width: 250px;
+}
+
+.fondo2{
+    background-color: orange;
+    height: 250px;
+    width: 250px;
+}
