@@ -16,7 +16,6 @@ function Coreografia(){
         usuario6: "",
         usuario7: "",   
     })
-    const [grupoActual, setGrupoActual] = useState("")
 
     useEffect(() => {
         const intervalo = setInterval(() => {
