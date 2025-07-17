@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import emailjs from '@emailjs/browser'
+
 
 function Coreografia(){
 
@@ -75,6 +77,24 @@ function Coreografia(){
         }
     }
 
+    const enviarCorreo = (e)=>{
+        e.preventDefault()
+
+        const parametros = {
+            to_email: 'javiercastillo.tuc@gmail.com,mario.basteri@naranjax.com',
+            message: 'Mensaje de prueba',
+        }
+
+        emailjs.send(
+            'service_y237w8l',
+            'template_cu8jcw3',
+             parametros,
+            'JIUVSc3n_dqzZhMU2'
+        )
+
+    }
+
+
     return <>
         <nav className="py-3 bg-body-tertiary">
             <h3 className="text-center marca fs-1">Coreo X</h3>
@@ -82,7 +102,7 @@ function Coreografia(){
 
         <main>
             <section id="coreo">
-                <div className="container">
+                <div className="container justify-content-center">
                     <div className="row gy-3 py-3 justify-content-center">
                         <div className="col-12 col-md-6">
                             <div className="card h-100 align-items-center">
@@ -109,6 +129,10 @@ function Coreografia(){
                             </div>
                         </div>
                     </div>
+                    
+                </div>
+                <div className="container text-center py-3">
+                    <button className="btn btn-warning text-white">Correo de prueba</button>
                 </div>
             </section>
         </main>
