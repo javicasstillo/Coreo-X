@@ -81,7 +81,8 @@ function Coreografia(){
         e.preventDefault()
 
         const parametros = {
-            to_email: 'mario.basteri@naranjax.com',
+            to_email: 'javier.castillo@naranjax.com',
+            cc: 'mario.basteri@naranjax.com',
             message: 'Mensaje de prueba',
         }
 
