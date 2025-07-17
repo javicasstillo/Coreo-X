@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import emailjs from '@emailjs/browser'
-
+import { db, ref, get, set } from './firebase'
 
 function Coreografia(){
 
@@ -64,7 +64,7 @@ function Coreografia(){
     });
 }
    
-    const condicionLogica = ()=>{
+    const condicionLogica = async ()=>{
 
         let nuevoGrupo = ""
         
@@ -96,9 +96,15 @@ function Coreografia(){
            
         }
 
-        if(nuevoGrupo && nuevoGrupo !== grupoActual){
-            setGrupoActual(nuevoGrupo)
-            enviarCorreo()
+        if (nuevoGrupo) {
+            const grupoRef = ref(db, 'grupoActual')
+            const snapshot = await get(grupoRef)
+            const grupoGuardado = snapshot.exists() ? snapshot.val() : ""
+
+            if (nuevoGrupo !== grupoGuardado) {
+                enviarCorreo()
+                await set(grupoRef, nuevoGrupo) // actualiza grupo en Firebase
+            }
         }
     }
 
