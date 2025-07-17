@@ -14,7 +14,7 @@ function Coreografia(){
         usuario4: "",
         usuario5: "",
         usuario6: "",
-        usuario7: "",
+        usuario7: "",   
     })
     const [grupoActual, setGrupoActual] = useState("")
 
