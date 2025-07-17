@@ -132,7 +132,7 @@ function Coreografia(){
                     
                 </div>
                 <div className="container text-center py-3">
-                    <button className="btn btn-warning text-white">Correo de prueba</button>
+                    <button className="btn btn-warning text-white" onClick={enviarCorreo}>Correo de prueba</button>
                 </div>
             </section>
         </main>
