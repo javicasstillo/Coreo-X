@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import emailjs from '@emailjs/browser'
-import { db, ref, get, set } from './firebase'
+import { db, ref, get, set } from '../firebase'
 
 function Coreografia(){
 
