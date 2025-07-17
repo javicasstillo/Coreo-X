@@ -16,6 +16,7 @@ function Coreografia(){
         usuario6: "",
         usuario7: "",
     })
+    const [grupoActual, setGrupoActual] = useState("")
 
     useEffect(() => {
         const intervalo = setInterval(() => {
@@ -64,22 +65,45 @@ function Coreografia(){
 }
    
     const condicionLogica = ()=>{
+
+        let nuevoGrupo = ""
+        
+
         if (hora > 13 || (hora === 13 && minuto > 50)) {
+            nuevoGrupo = "grupo3"
             grupo3()
+            
+            
         }  else if(hora >12 || (hora === 12 && minuto > 30)){
+            nuevoGrupo = "grupo2"
             grupo2()
+            
+            
         } else if(hora >11 ||(hora === 11 && minuto >10) ){
+            nuevoGrupo = "grupo1"
             grupo1()
+            
+            
         } else if(hora > 9 || (hora === 9 && minuto > 50)){
+            nuevoGrupo = "grupo2"
             grupo2()
+            
+            
         } else if (hora > 8 || (hora === 8 && minuto > 29)){
+            nuevoGrupo = "grupo1"
             grupo1()
+            
+           
+        }
+
+        if(nuevoGrupo && nuevoGrupo !== grupoActual){
+            setGrupoActual(nuevoGrupo)
+            enviarCorreo()
         }
     }
 
-    const enviarCorreo = (e)=>{
-        e.preventDefault()
-
+    const enviarCorreo = ()=>{
+    
         const parametros = {
             to_email: 'javier.castillo@naranjax.com',
             cc: 'mario.basteri@naranjax.com,florencia.brega@naranjax.com,ludmila.diaz@naranjax.com,carlos.sacon@naranjax.com,kevin.panto@naranjax.com'
@@ -132,9 +156,6 @@ function Coreografia(){
                         </div>
                     </div>
                     
-                </div>
-                <div className="container text-center py-3">
-                    <button className="btn btn-warning text-white" onClick={enviarCorreo}>Correo de prueba</button>
                 </div>
             </section>
         </main>
