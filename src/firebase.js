@@ -1,19 +1,17 @@
-// src/firebase.js
-import { initializeApp } from 'firebase/app'
-import { getDatabase, ref, get, set } from 'firebase/database'
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, get, set, onValue } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA3d7W6sBpxD8Vo3_4YQ5L0flI29xt2Rwk",
-  authDomain: "backend-coreox.firebaseapp.com",
-  projectId: "backend-coreox",
-  storageBucket: "backend-coreox.firebasestorage.app",
-  messagingSenderId: "1013608152466",
-  appId: "1:1013608152466:web:1b1d633e20a3464160554b",
-  databaseURL: "https://backend-coreox-default-rtdb.firebaseio.com"
-
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig)
-const db = getDatabase(app)
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-export { db, ref, get, set }
+export { db, ref, get, set, onValue };
