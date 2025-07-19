@@ -153,11 +153,11 @@ function Coreografia(){
                                         <h3 className="fs-1 text-white marca">Derivando</h3>
                                     </div>
                                     <div className=" d-flex gap-3 my-auto py-3">
-                                        {/* Mostrar usuario1 solo si no es Carlos en cajas */}
+                                        
                                         {!(usuarios.usuario1 === "Carlos" && mostrarCarlos) && (
                                             <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario1}</p>
                                         )}
-                                        {/* Mostrar usuario2 solo si no es Carlos en cajas */}
+                                       
                                         {!(usuarios.usuario2 === "Carlos" && mostrarCarlos) && (
                                             <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario2}</p>
                                         )}
@@ -171,19 +171,19 @@ function Coreografia(){
                                         <h3 className="fs-1 text-white marca">Atendiendo</h3>
                                     </div>
                                     <div className=" d-flex gap-3 my-auto py-3">
-                                        {/* Mostrar usuario3 solo si no es Carlos en cajas */}
+                                        
                                         {!(usuarios.usuario3 === "Carlos" && mostrarCarlos) && (
                                             <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario3}</p>
                                         )}
-                                        {/* Mostrar usuario4 solo si no es Carlos en cajas */}
+                                        
                                         {!(usuarios.usuario4 === "Carlos" && mostrarCarlos) && (
                                             <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario4}</p>
                                         )}
-                                        {/* Mostrar usuario5 solo si no es Carlos en cajas */}
+                                        
                                         {!(usuarios.usuario5 === "Carlos" && mostrarCarlos) && (
                                             <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario5}</p>
                                         )}
-                                        {/* Mostrar usuario6 solo si no es Carlos en cajas */}
+                                        
                                         {!(usuarios.usuario6 === "Carlos" && mostrarCarlos) && (
                                             <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario6}</p>
                                         )}
