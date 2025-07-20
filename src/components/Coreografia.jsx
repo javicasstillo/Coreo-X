@@ -93,7 +93,7 @@ function Coreografia(){
         } else if(hora > 9 || (hora === 9 && minuto > 50)){
             nuevoGrupo = "grupo2";
             grupo2();
-        } else if (hora > 8 || (hora === 8 && minuto > 29)){
+        } else if (hora > 8 || (hora === 8 && minuto > 10)){
             nuevoGrupo = "grupo1";
             grupo1();
         }
