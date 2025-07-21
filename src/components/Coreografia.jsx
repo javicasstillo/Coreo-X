@@ -46,7 +46,7 @@ function Coreografia(){
             const estado = snapshot.val();
             if (estado !== null) {
                 setMostrarCarlos(estado);
-                setMensaje(estado ? "Voy a atender" : "Voy a cajas");
+                setMensaje(estado ? "Salgo de cajas" : "Voy a cajas");
             }
         });
 
@@ -59,7 +59,7 @@ function Coreografia(){
             const estado = snapshot.val();
             if (estado !== null) {
                 setMostrarFlorencia(estado);
-                setMensaje2(estado ? "Voy a atender" : "Voy a cajas");
+                setMensaje2(estado ? "Salgo de cajas" : "Voy a cajas");
             }
         });
 
@@ -95,7 +95,7 @@ function Coreografia(){
           usuario3: "Javier",
           usuario4: "Florencia",
           usuario5: "Ludmila",
-          usuario6: "",
+          usuario6: "Kevin",
         });
     };
 
@@ -172,7 +172,7 @@ function Coreografia(){
     const avisarCajasCarlos = async () => {
         const nuevoEstado = !mostrarCarlos;
         setMostrarCarlos(nuevoEstado);
-        setMensaje(nuevoEstado ? "Voy a atender" : "Voy a cajas");
+        setMensaje(nuevoEstado ? "Salgo de cajas" : "Voy a cajas");
 
         const estadoRef = ref(db, 'carlosEnCajas');
         await set(estadoRef, nuevoEstado);
@@ -181,7 +181,7 @@ function Coreografia(){
     const avisarFlorenciaCajas = async () => {
         const nuevoEstado = !mostrarFlorencia;
         setMostrarFlorencia(nuevoEstado);
-        setMensaje2(nuevoEstado ? "Voy a atender" : "Voy a cajas");
+        setMensaje2(nuevoEstado ? "Salgo de cajas" : "Voy a cajas");
 
         const estadoRef = ref(db, 'florenciaEnCajas');
         await set(estadoRef, nuevoEstado);
@@ -236,7 +236,8 @@ function Coreografia(){
                                         )}
                                         
                                         {!(usuarios.usuario6 === "Carlos" && mostrarCarlos || usuarios.usuario6 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario6}</p>
+                                            (usuarios.usuario6 !== "Kevin") && (<p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario6}</p>
+                                            )
                                         )}
                                     </div>
                                 </div>
