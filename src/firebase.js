@@ -1,18 +1,19 @@
 // src/firebase.js
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, onValue } from "firebase/database";
+import { initializeApp } from 'firebase/app'
+import { getDatabase, ref, get, set, onValue } from 'firebase/database'
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_ID,
-  databaseURL: import.meta.env.VITE_DATABASE_URL,
+  apiKey: "AIzaSyA3d7W6sBpxD8Vo3_4YQ5L0flI29xt2Rwk",
+  authDomain: "backend-coreox.firebaseapp.com",
+  projectId: "backend-coreox",
+  storageBucket: "backend-coreox.firebasestorage.app",
+  messagingSenderId: "1013608152466",
+  appId: "1:1013608152466:web:1b1d633e20a3464160554b",
+  databaseURL: "https://backend-coreox-default-rtdb.firebaseio.com"
+
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const app = initializeApp(firebaseConfig)
+const db = getDatabase(app)
 
-export { db, ref, set, get, onValue };
+export { db, ref, get, set, onValue }
