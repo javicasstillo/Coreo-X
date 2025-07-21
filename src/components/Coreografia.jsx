@@ -92,11 +92,11 @@ function Coreografia(){
             grupo3();
         } else if(hora >12 || (hora === 12 && minuto > 30)){
             if (dia === 1 || dia === 3 || dia === 5){
-                nuevoGrupo = "grupo1";
-                grupo1();
-            } else if (dia === 2 || dia === 4 ){
                 nuevoGrupo = "grupo2";
                 grupo2();
+            } else if (dia === 2 || dia === 4 ){
+                nuevoGrupo = "grupo1";
+                grupo1();
             }
         } else if(hora >11 ||(hora === 11 && minuto >10) ){
             if (dia === 1 || dia === 3 || dia === 5){
@@ -108,11 +108,11 @@ function Coreografia(){
             }
         } else if(hora > 9 || (hora === 9 && minuto > 50)){
             if (dia === 1 || dia === 3 || dia === 5){
-                nuevoGrupo = "grupo1";
-                grupo1();
-            } else if (dia === 2 || dia === 4 ){
                 nuevoGrupo = "grupo2";
                 grupo2();
+            } else if (dia === 2 || dia === 4 ){
+                nuevoGrupo = "grupo1";
+                grupo1();
             }
         } else if (hora > 8 || (hora === 8 && minuto > 30)){
             if (dia === 1 || dia === 3 || dia === 5){
