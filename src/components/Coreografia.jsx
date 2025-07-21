@@ -16,7 +16,9 @@ function Coreografia(){
         usuario6: "",   
     });
     const [mostrarCarlos, setMostrarCarlos] = useState(false);
+    const [mostrarFlorencia, setMostrarFlorencia] = useState(false);
     const [mensaje, setMensaje] = useState("Voy a Cajas");
+    const [mensaje2, setMensaje2] = useState("Voy a Cajas");
 
     useEffect(() => {
         const ahora = new Date();
@@ -45,6 +47,19 @@ function Coreografia(){
             if (estado !== null) {
                 setMostrarCarlos(estado);
                 setMensaje(estado ? "Voy a atender" : "Voy a cajas");
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        const estadoRef = ref(db, 'florenciaEnCajas');
+        const unsubscribe = onValue(estadoRef, (snapshot) => {
+            const estado = snapshot.val();
+            if (estado !== null) {
+                setMostrarFlorencia(estado);
+                setMensaje2(estado ? "Voy a atender" : "Voy a cajas");
             }
         });
 
@@ -163,6 +178,15 @@ function Coreografia(){
         await set(estadoRef, nuevoEstado);
     };
 
+    const avisarFlorenciaCajas = async () => {
+        const nuevoEstado = !mostrarFlorencia;
+        setMostrarFlorencia(nuevoEstado);
+        setMensaje2(nuevoEstado ? "Voy a atender" : "Voy a cajas");
+
+        const estadoRef = ref(db, 'florenciaEnCajas');
+        await set(estadoRef, nuevoEstado);
+    };
+
     return (
         <>
             <nav className="py-3 bg-body-tertiary">
@@ -181,11 +205,11 @@ function Coreografia(){
                                     </div>
                                     <div className=" d-flex gap-3 my-auto py-3">
                                         
-                                        {!(usuarios.usuario1 === "Carlos" && mostrarCarlos) && (
+                                        {!(usuarios.usuario1 === "Carlos" && mostrarCarlos || usuarios.usuario1 === "Florencia" && mostrarFlorencia) && (
                                             <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario1}</p>
                                         )}
                                        
-                                        {!(usuarios.usuario2 === "Carlos" && mostrarCarlos) && (
+                                        {!(usuarios.usuario2 === "Carlos" && mostrarCarlos || usuarios.usuario2 === "Florencia" && mostrarFlorencia) && (
                                             <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario2}</p>
                                         )}
                                     </div>
@@ -199,33 +223,36 @@ function Coreografia(){
                                     </div>
                                     <div className=" d-flex gap-3 my-auto py-3">
                                         
-                                        {!(usuarios.usuario3 === "Carlos" && mostrarCarlos) && (
-                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario3}</p>
+                                        {!(usuarios.usuario3 === "Carlos" && mostrarCarlos || usuarios.usuario3 === "Florencia" && mostrarFlorencia) && (
+                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario3}</p>
                                         )}
                                         
-                                        {!(usuarios.usuario4 === "Carlos" && mostrarCarlos) && (
-                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario4}</p>
+                                        {!(usuarios.usuario4 === "Carlos" && mostrarCarlos || usuarios.usuario4 === "Florencia" && mostrarFlorencia) && (
+                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario4}</p>
                                         )}
                                         
-                                        {!(usuarios.usuario5 === "Carlos" && mostrarCarlos) && (
-                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario5}</p>
+                                        {!(usuarios.usuario5 === "Carlos" && mostrarCarlos || usuarios.usuario5 === "Florencia" && mostrarFlorencia) && (
+                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario5}</p>
                                         )}
                                         
-                                        {!(usuarios.usuario6 === "Carlos" && mostrarCarlos) && (
-                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario6}</p>
+                                        {!(usuarios.usuario6 === "Carlos" && mostrarCarlos || usuarios.usuario6 === "Florencia" && mostrarFlorencia) && (
+                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario6}</p>
                                         )}
                                     </div>
                                 </div>
                             </div>
 
-                            {mostrarCarlos && (
+                            {(mostrarCarlos || mostrarFlorencia) && (
                                 <div className="col-12 col-md-4">
                                     <div className="card h-100 align-items-center">
                                         <div className="fondo3 w-100 d-flex align-items-center justify-content-center">
                                             <h3 className="fs-1 text-white marca">En Cajas</h3>
                                         </div>
                                         <div className=" d-flex gap-3 my-auto py-3">
-                                            <p className="mb-0 p-2 rounded bg-warning-subtle">Carlos</p>
+                                            
+                                        {(mostrarCarlos) && (<p className="mb-0 p-2 rounded bg-warning-subtle">Carlos</p>)}
+                                        {(mostrarFlorencia) && (<p className="mb-0 p-2 rounded bg-warning-subtle">Florencia</p>)}
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -240,6 +267,10 @@ function Coreografia(){
                         <div className="card p-3">
                             <p>Carlos</p>
                             <button className="btn btn-primary" onClick={avisarCajasCarlos}>{mensaje}</button>
+                        </div>
+                        <div className="card p-3">
+                            <p>Florencia</p>
+                            <button className="btn btn-primary" onClick={avisarFlorenciaCajas}>{mensaje2}</button>
                         </div>
                     </div>
                 </section>
