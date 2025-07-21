@@ -224,15 +224,15 @@ function Coreografia(){
                                     <div className=" d-flex gap-3 my-auto py-3">
                                         
                                         {!(usuarios.usuario3 === "Carlos" && mostrarCarlos || usuarios.usuario3 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario3}</p>
+                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario3}</p>
                                         )}
                                         
                                         {!(usuarios.usuario4 === "Carlos" && mostrarCarlos || usuarios.usuario4 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario4}</p>
+                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario4}</p>
                                         )}
                                         
                                         {!(usuarios.usuario5 === "Carlos" && mostrarCarlos || usuarios.usuario5 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario5}</p>
+                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario5}</p>
                                         )}
                                         
                                         {!(usuarios.usuario6 === "Carlos" && mostrarCarlos || usuarios.usuario6 === "Florencia" && mostrarFlorencia) && (
@@ -251,8 +251,8 @@ function Coreografia(){
                                         </div>
                                         <div className=" d-flex gap-3 my-auto py-3">
                                             
-                                        {(mostrarCarlos) && (<p className="mb-0 p-2 rounded bg-warning-subtle">Carlos</p>)}
-                                        {(mostrarFlorencia) && (<p className="mb-0 p-2 rounded bg-warning-subtle">Florencia</p>)}
+                                        {(mostrarCarlos) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Carlos</p>)}
+                                        {(mostrarFlorencia) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Florencia</p>)}
                                             
                                         </div>
                                     </div>
@@ -278,8 +278,8 @@ function Coreografia(){
             </main>
 
             <footer className="py-3 bg-body-tertiary">
-                <p className="mb-3 text-center">&copy; Coreo X. Todos los derechos reservados</p>
-                <p className="lead text-center">Desarrollado por: Kevin Panto - Javier Castillo</p>
+                <p className="mb-3 text-center">&copy; Coreo X.</p>
+                <p className="mb-0 lead text-center">Desarrollado por: Kevin Panto - Javier Castillo</p>
             </footer>
         </>
     );
