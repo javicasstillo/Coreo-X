@@ -6,6 +6,7 @@ function Coreografia(){
 
     const [hora, setHora] = useState(0);
     const [minuto, setMinuto] = useState(0);
+    const [dia, setDia] = useState("")
     const [usuarios, setUsuarios] = useState({
         usuario1: "",
         usuario2: "",
@@ -18,6 +19,11 @@ function Coreografia(){
     const [mensaje, setMensaje] = useState("Voy a Cajas");
 
     useEffect(() => {
+        const ahora = new Date();
+        setHora(ahora.getHours());
+        setMinuto(ahora.getMinutes());
+        setDia(ahora.getDay());
+
         const intervalo = setInterval(() => {
             const ahora = new Date();
             setHora(ahora.getHours());
@@ -29,7 +35,7 @@ function Coreografia(){
 
     useEffect(() => {
         condicionLogica();
-    }, [hora, minuto]);
+    }, [hora, minuto, dia]);
 
     // Listener para sincronizar mostrarCarlos con Firebase en tiempo real
     useEffect(() => {
@@ -85,17 +91,38 @@ function Coreografia(){
             nuevoGrupo = "grupo3";
             grupo3();
         } else if(hora >12 || (hora === 12 && minuto > 30)){
-            nuevoGrupo = "grupo2";
-            grupo2();
+            if (dia === 1 || dia === 3 || dia === 5){
+                nuevoGrupo = "grupo1";
+                grupo1();
+            } else if (dia === 2 || dia === 4 ){
+                nuevoGrupo = "grupo2";
+                grupo2();
+            }
         } else if(hora >11 ||(hora === 11 && minuto >10) ){
-            nuevoGrupo = "grupo1";
-            grupo1();
+            if (dia === 1 || dia === 3 || dia === 5){
+                nuevoGrupo = "grupo1";
+                grupo1();
+            } else if (dia === 2 || dia === 4 ){
+                nuevoGrupo = "grupo2";
+                grupo2();
+            }
         } else if(hora > 9 || (hora === 9 && minuto > 50)){
-            nuevoGrupo = "grupo2";
-            grupo2();
-        } else if (hora > 8 || (hora === 8 && minuto > 10)){
-            nuevoGrupo = "grupo1";
-            grupo1();
+            if (dia === 1 || dia === 3 || dia === 5){
+                nuevoGrupo = "grupo1";
+                grupo1();
+            } else if (dia === 2 || dia === 4 ){
+                nuevoGrupo = "grupo2";
+                grupo2();
+            }
+        } else if (hora > 8 || (hora === 8 && minuto > 30)){
+            if (dia === 1 || dia === 3 || dia === 5){
+                nuevoGrupo = "grupo1";
+                grupo1();
+            } else if (dia === 2 || dia === 4 ){
+                nuevoGrupo = "grupo2";
+                grupo2();
+            }
+            
         }
 
         if (nuevoGrupo) {
