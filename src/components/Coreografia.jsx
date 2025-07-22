@@ -7,7 +7,7 @@ function Coreografia(){
     const [hora, setHora] = useState(0);
     const [minuto, setMinuto] = useState(0);
     const [dia, setDia] = useState("");
-    const [grupoActual, setGrupoActual] = useState("");
+    const [grupoActual, setGrupoActual] = useState(""); // Nuevo estado local
 
     const [usuarios, setUsuarios] = useState({
         usuario1: "",
@@ -33,28 +33,13 @@ function Coreografia(){
             const ahora = new Date();
             setHora(ahora.getHours());
             setMinuto(ahora.getMinutes());
-        }, 60000); // cada minuto
+        }, 60000); // Solo cada minuto
 
         return () => clearInterval(intervalo);
     }, []);
 
-    // 🔄 Obtener el grupo actual una vez al iniciar
     useEffect(() => {
-        const obtenerGrupo = async () => {
-            const grupoRef = ref(db, 'grupoActual');
-            const snapshot = await get(grupoRef);
-            const grupoGuardado = snapshot.exists() ? snapshot.val() : "";
-            setGrupoActual(grupoGuardado);
-        };
-
-        obtenerGrupo();
-    }, []);
-
-    useEffect(() => {
-        const run = async () => {
-            await condicionLogica();
-        };
-        run();
+        condicionLogica();
     }, [hora, minuto, dia]);
 
     useEffect(() => {
@@ -122,44 +107,51 @@ function Coreografia(){
         if (hora > 13 || (hora === 13 && minuto > 50)) {
             nuevoGrupo = "grupo3";
             grupo3();
-        } else if (hora > 12 || (hora === 12 && minuto > 30)) {
-            if (dia === 1 || dia === 3 || dia === 5) {
+        } else if(hora >12 || (hora === 12 && minuto > 30)){
+            if (dia === 1 || dia === 3 || dia === 5){
                 nuevoGrupo = "grupo2";
                 grupo2();
-            } else if (dia === 2 || dia === 4) {
+            } else if (dia === 2 || dia === 4 ){
                 nuevoGrupo = "grupo1";
                 grupo1();
             }
-        } else if (hora > 11 || (hora === 11 && minuto > 10)) {
-            if (dia === 1 || dia === 3 || dia === 5) {
+        } else if(hora >11 ||(hora === 11 && minuto >10) ){
+            if (dia === 1 || dia === 3 || dia === 5){
                 nuevoGrupo = "grupo1";
                 grupo1();
-            } else if (dia === 2 || dia === 4) {
+            } else if (dia === 2 || dia === 4 ){
                 nuevoGrupo = "grupo2";
                 grupo2();
             }
-        } else if (hora > 9 || (hora === 9 && minuto > 50)) {
-            if (dia === 1 || dia === 3 || dia === 5) {
+        } else if(hora > 9 || (hora === 9 && minuto > 50)){
+            if (dia === 1 || dia === 3 || dia === 5){
                 nuevoGrupo = "grupo2";
                 grupo2();
-            } else if (dia === 2 || dia === 4) {
+            } else if (dia === 2 || dia === 4 ){
                 nuevoGrupo = "grupo1";
                 grupo1();
             }
-        } else if (hora > 8 || (hora === 8 && minuto > 30)) {
-            if (dia === 1 || dia === 3 || dia === 5) {
+        } else if (hora > 8 || (hora === 8 && minuto > 30)){
+            if (dia === 1 || dia === 3 || dia === 5){
                 nuevoGrupo = "grupo1";
                 grupo1();
-            } else if (dia === 2 || dia === 4) {
+            } else if (dia === 2 || dia === 4 ){
                 nuevoGrupo = "grupo2";
                 grupo2();
             }
         }
 
         if (nuevoGrupo && nuevoGrupo !== grupoActual) {
-            await set(ref(db, 'grupoActual'), nuevoGrupo);
+            const grupoRef = ref(db, 'grupoActual');
+            const snapshot = await get(grupoRef);
+            const grupoGuardado = snapshot.exists() ? snapshot.val() : "";
+
+            if (nuevoGrupo !== grupoGuardado) {
+                enviarCorreo();
+                await set(grupoRef, nuevoGrupo);
+            }
+
             setGrupoActual(nuevoGrupo);
-            enviarCorreo();
         }
     };
 
@@ -214,9 +206,11 @@ function Coreografia(){
                                         <h3 className="fs-1 text-white marca">Derivando</h3>
                                     </div>
                                     <div className=" d-flex gap-3 my-auto py-3">
+                                        
                                         {!(usuarios.usuario1 === "Carlos" && mostrarCarlos || usuarios.usuario1 === "Florencia" && mostrarFlorencia) && (
                                             <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario1}</p>
                                         )}
+                                       
                                         {!(usuarios.usuario2 === "Carlos" && mostrarCarlos || usuarios.usuario2 === "Florencia" && mostrarFlorencia) && (
                                             <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario2}</p>
                                         )}
@@ -230,15 +224,19 @@ function Coreografia(){
                                         <h3 className="fs-1 text-white marca">Atendiendo</h3>
                                     </div>
                                     <div className=" d-flex gap-3 my-auto py-3">
+                                        
                                         {!(usuarios.usuario3 === "Carlos" && mostrarCarlos || usuarios.usuario3 === "Florencia" && mostrarFlorencia) && (
                                             <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario3}</p>
                                         )}
+                                        
                                         {!(usuarios.usuario4 === "Carlos" && mostrarCarlos || usuarios.usuario4 === "Florencia" && mostrarFlorencia) && (
                                             <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario4}</p>
                                         )}
+                                        
                                         {!(usuarios.usuario5 === "Carlos" && mostrarCarlos || usuarios.usuario5 === "Florencia" && mostrarFlorencia) && (
                                             <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario5}</p>
                                         )}
+                                        
                                         {!(usuarios.usuario6 === "Carlos" && mostrarCarlos || usuarios.usuario6 === "Florencia" && mostrarFlorencia) && (
                                             (usuarios.usuario6 !== "Kevin") && (<p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario6}</p>)
                                         )}
@@ -253,8 +251,10 @@ function Coreografia(){
                                             <h3 className="fs-1 text-white marca">En Cajas</h3>
                                         </div>
                                         <div className=" d-flex gap-3 my-auto py-3">
+                                            
                                             {(mostrarCarlos) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Carlos</p>)}
                                             {(mostrarFlorencia) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Florencia</p>)}
+                                            
                                         </div>
                                     </div>
                                 </div>
