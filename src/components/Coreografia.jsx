@@ -4,10 +4,11 @@ import { db, ref, get, set, onValue } from '../firebase';
 
 function Coreografia(){
 
-    
     const [hora, setHora] = useState(0);
     const [minuto, setMinuto] = useState(0);
-    const [dia, setDia] = useState("")
+    const [dia, setDia] = useState("");
+    const [grupoActual, setGrupoActual] = useState(""); // Nuevo estado local
+
     const [usuarios, setUsuarios] = useState({
         usuario1: "",
         usuario2: "",
@@ -16,6 +17,7 @@ function Coreografia(){
         usuario5: "",
         usuario6: "",   
     });
+
     const [mostrarCarlos, setMostrarCarlos] = useState(false);
     const [mostrarFlorencia, setMostrarFlorencia] = useState(false);
     const [mensaje, setMensaje] = useState("Voy a Cajas");
@@ -31,7 +33,7 @@ function Coreografia(){
             const ahora = new Date();
             setHora(ahora.getHours());
             setMinuto(ahora.getMinutes());
-        }, 1000);
+        }, 60000); // Solo cada minuto
 
         return () => clearInterval(intervalo);
     }, []);
@@ -40,7 +42,6 @@ function Coreografia(){
         condicionLogica();
     }, [hora, minuto, dia]);
 
-    // Listener para sincronizar mostrarCarlos con Firebase en tiempo real
     useEffect(() => {
         const estadoRef = ref(db, 'carlosEnCajas');
         const unsubscribe = onValue(estadoRef, (snapshot) => {
@@ -69,34 +70,34 @@ function Coreografia(){
 
     const grupo1 = () => {
         setUsuarios({
-          usuario1: "Florencia",
-          usuario2: "Javier",
-          usuario3: "Kevin",
-          usuario4: "Luciano",
-          usuario5: "Carlos",
-          usuario6: "Ludmila",
+            usuario1: "Florencia",
+            usuario2: "Javier",
+            usuario3: "Kevin",
+            usuario4: "Luciano",
+            usuario5: "Carlos",
+            usuario6: "Ludmila",
         });
     };
 
     const grupo2 = () => {
         setUsuarios({
-          usuario1: "Kevin",
-          usuario2: "Ludmila",
-          usuario3: "Florencia",
-          usuario4: "Luciano",
-          usuario5: "Carlos",
-          usuario6: "Javier",
+            usuario1: "Kevin",
+            usuario2: "Ludmila",
+            usuario3: "Florencia",
+            usuario4: "Luciano",
+            usuario5: "Carlos",
+            usuario6: "Javier",
         });
     };
 
     const grupo3 = () => {
         setUsuarios({
-          usuario1: "Carlos",
-          usuario2: "Luciano",
-          usuario3: "Javier",
-          usuario4: "Florencia",
-          usuario5: "Ludmila",
-          usuario6: "Kevin",
+            usuario1: "Carlos",
+            usuario2: "Luciano",
+            usuario3: "Javier",
+            usuario4: "Florencia",
+            usuario5: "Ludmila",
+            usuario6: "Kevin",
         });
     };
 
@@ -138,18 +139,19 @@ function Coreografia(){
                 nuevoGrupo = "grupo2";
                 grupo2();
             }
-            
         }
 
-        if (nuevoGrupo) {
+        if (nuevoGrupo && nuevoGrupo !== grupoActual) {
             const grupoRef = ref(db, 'grupoActual');
             const snapshot = await get(grupoRef);
             const grupoGuardado = snapshot.exists() ? snapshot.val() : "";
 
             if (nuevoGrupo !== grupoGuardado) {
                 enviarCorreo();
-                await set(grupoRef, nuevoGrupo); // actualiza grupo en Firebase
+                await set(grupoRef, nuevoGrupo);
             }
+
+            setGrupoActual(nuevoGrupo);
         }
     };
 
@@ -169,7 +171,6 @@ function Coreografia(){
         console.log("correo enviado");
     };
 
-    // Actualiza estado en Firebase y local al hacer click
     const avisarCajasCarlos = async () => {
         const nuevoEstado = !mostrarCarlos;
         setMostrarCarlos(nuevoEstado);
@@ -237,8 +238,7 @@ function Coreografia(){
                                         )}
                                         
                                         {!(usuarios.usuario6 === "Carlos" && mostrarCarlos || usuarios.usuario6 === "Florencia" && mostrarFlorencia) && (
-                                            (usuarios.usuario6 !== "Kevin") && (<p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario6}</p>
-                                            )
+                                            (usuarios.usuario6 !== "Kevin") && (<p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario6}</p>)
                                         )}
                                     </div>
                                 </div>
@@ -252,8 +252,8 @@ function Coreografia(){
                                         </div>
                                         <div className=" d-flex gap-3 my-auto py-3">
                                             
-                                        {(mostrarCarlos) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Carlos</p>)}
-                                        {(mostrarFlorencia) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Florencia</p>)}
+                                            {(mostrarCarlos) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Carlos</p>)}
+                                            {(mostrarFlorencia) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Florencia</p>)}
                                             
                                         </div>
                                     </div>
