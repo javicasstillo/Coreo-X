@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import emailjs from '@emailjs/browser';
 import { db, ref, get, set, onValue } from '../firebase';
 
-function Coreografia(){
-
-    
-    const [hora, setHora] = useState(0);
-    const [minuto, setMinuto] = useState(0);
-    const [dia, setDia] = useState("")
+function Coreografia() {
     const [usuarios, setUsuarios] = useState({
         usuario1: "",
         usuario2: "",
@@ -16,31 +11,31 @@ function Coreografia(){
         usuario5: "",
         usuario6: "",   
     });
+
     const [mostrarCarlos, setMostrarCarlos] = useState(false);
     const [mostrarFlorencia, setMostrarFlorencia] = useState(false);
     const [mensaje, setMensaje] = useState("Voy a Cajas");
     const [mensaje2, setMensaje2] = useState("Voy a Cajas");
 
+    // Ejecutar lógica de grupo cada 60 segundos
     useEffect(() => {
-        const ahora = new Date();
-        setHora(ahora.getHours());
-        setMinuto(ahora.getMinutes());
-        setDia(ahora.getDay());
-
         const intervalo = setInterval(() => {
             const ahora = new Date();
-            setHora(ahora.getHours());
-            setMinuto(ahora.getMinutes());
-        }, 1000);
+            const hora = ahora.getHours();
+            const minuto = ahora.getMinutes();
+            const dia = ahora.getDay();
+
+            condicionLogica(hora, minuto, dia);
+        }, 60000); // cada 60 segundos
+
+        // Ejecutar también al montar
+        const ahora = new Date();
+        condicionLogica(ahora.getHours(), ahora.getMinutes(), ahora.getDay());
 
         return () => clearInterval(intervalo);
     }, []);
 
-    useEffect(() => {
-        condicionLogica();
-    }, [hora, minuto, dia]);
-
-    // Listener para sincronizar mostrarCarlos con Firebase en tiempo real
+    // Listener para estado de Carlos
     useEffect(() => {
         const estadoRef = ref(db, 'carlosEnCajas');
         const unsubscribe = onValue(estadoRef, (snapshot) => {
@@ -54,6 +49,7 @@ function Coreografia(){
         return () => unsubscribe();
     }, []);
 
+    // Listener para estado de Florencia
     useEffect(() => {
         const estadoRef = ref(db, 'florenciaEnCajas');
         const unsubscribe = onValue(estadoRef, (snapshot) => {
@@ -69,76 +65,55 @@ function Coreografia(){
 
     const grupo1 = () => {
         setUsuarios({
-          usuario1: "Florencia",
-          usuario2: "Javier",
-          usuario3: "Kevin",
-          usuario4: "Luciano",
-          usuario5: "Carlos",
-          usuario6: "Ludmila",
+            usuario1: "Florencia",
+            usuario2: "Javier",
+            usuario3: "Kevin",
+            usuario4: "Luciano",
+            usuario5: "Carlos",
+            usuario6: "Ludmila",
         });
     };
 
     const grupo2 = () => {
         setUsuarios({
-          usuario1: "Kevin",
-          usuario2: "Ludmila",
-          usuario3: "Florencia",
-          usuario4: "Luciano",
-          usuario5: "Carlos",
-          usuario6: "Javier",
+            usuario1: "Kevin",
+            usuario2: "Ludmila",
+            usuario3: "Florencia",
+            usuario4: "Luciano",
+            usuario5: "Carlos",
+            usuario6: "Javier",
         });
     };
 
     const grupo3 = () => {
         setUsuarios({
-          usuario1: "Carlos",
-          usuario2: "Luciano",
-          usuario3: "Javier",
-          usuario4: "Florencia",
-          usuario5: "Ludmila",
-          usuario6: "Kevin",
+            usuario1: "Carlos",
+            usuario2: "Luciano",
+            usuario3: "Javier",
+            usuario4: "Florencia",
+            usuario5: "Ludmila",
+            usuario6: "Kevin",
         });
     };
 
-    const condicionLogica = async () => {
+    const condicionLogica = async (hora, minuto, dia) => {
         let nuevoGrupo = "";
 
         if (hora > 13 || (hora === 13 && minuto > 50)) {
             nuevoGrupo = "grupo3";
             grupo3();
-        } else if(hora >12 || (hora === 12 && minuto > 30)){
-            if (dia === 1 || dia === 3 || dia === 5){
-                nuevoGrupo = "grupo2";
-                grupo2();
-            } else if (dia === 2 || dia === 4 ){
-                nuevoGrupo = "grupo1";
-                grupo1();
-            }
-        } else if(hora >11 ||(hora === 11 && minuto >10) ){
-            if (dia === 1 || dia === 3 || dia === 5){
-                nuevoGrupo = "grupo1";
-                grupo1();
-            } else if (dia === 2 || dia === 4 ){
-                nuevoGrupo = "grupo2";
-                grupo2();
-            }
-        } else if(hora > 9 || (hora === 9 && minuto > 50)){
-            if (dia === 1 || dia === 3 || dia === 5){
-                nuevoGrupo = "grupo2";
-                grupo2();
-            } else if (dia === 2 || dia === 4 ){
-                nuevoGrupo = "grupo1";
-                grupo1();
-            }
-        } else if (hora > 8 || (hora === 8 && minuto > 30)){
-            if (dia === 1 || dia === 3 || dia === 5){
-                nuevoGrupo = "grupo1";
-                grupo1();
-            } else if (dia === 2 || dia === 4 ){
-                nuevoGrupo = "grupo2";
-                grupo2();
-            }
-            
+        } else if (hora > 12 || (hora === 12 && minuto > 30)) {
+            nuevoGrupo = (dia === 1 || dia === 3 || dia === 5) ? "grupo2" : "grupo1";
+            nuevoGrupo === "grupo1" ? grupo1() : grupo2();
+        } else if (hora > 11 || (hora === 11 && minuto > 10)) {
+            nuevoGrupo = (dia === 1 || dia === 3 || dia === 5) ? "grupo1" : "grupo2";
+            nuevoGrupo === "grupo1" ? grupo1() : grupo2();
+        } else if (hora > 9 || (hora === 9 && minuto > 50)) {
+            nuevoGrupo = (dia === 1 || dia === 3 || dia === 5) ? "grupo2" : "grupo1";
+            nuevoGrupo === "grupo1" ? grupo1() : grupo2();
+        } else if (hora > 8 || (hora === 8 && minuto > 30)) {
+            nuevoGrupo = (dia === 1 || dia === 3 || dia === 5) ? "grupo1" : "grupo2";
+            nuevoGrupo === "grupo1" ? grupo1() : grupo2();
         }
 
         if (nuevoGrupo) {
@@ -148,7 +123,7 @@ function Coreografia(){
 
             if (nuevoGrupo !== grupoGuardado) {
                 enviarCorreo();
-                await set(grupoRef, nuevoGrupo); // actualiza grupo en Firebase
+                await set(grupoRef, nuevoGrupo);
             }
         }
     };
@@ -169,7 +144,6 @@ function Coreografia(){
         console.log("correo enviado");
     };
 
-    // Actualiza estado en Firebase y local al hacer click
     const avisarCajasCarlos = async () => {
         const nuevoEstado = !mostrarCarlos;
         setMostrarCarlos(nuevoEstado);
@@ -204,15 +178,11 @@ function Coreografia(){
                                     <div className="fondo1 w-100 d-flex align-items-center justify-content-center">
                                         <h3 className="fs-1 text-white marca">Derivando</h3>
                                     </div>
-                                    <div className=" d-flex gap-3 my-auto py-3">
-                                        
-                                        {!(usuarios.usuario1 === "Carlos" && mostrarCarlos || usuarios.usuario1 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario1}</p>
-                                        )}
-                                       
-                                        {!(usuarios.usuario2 === "Carlos" && mostrarCarlos || usuarios.usuario2 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario2}</p>
-                                        )}
+                                    <div className="d-flex gap-3 my-auto py-3">
+                                        {[usuarios.usuario1, usuarios.usuario2].map((usuario, index) => (
+                                            !(usuario === "Carlos" && mostrarCarlos || usuario === "Florencia" && mostrarFlorencia) &&
+                                            <p key={index} className="mb-0 p-2 rounded bg-secondary-subtle">{usuario}</p>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -222,24 +192,13 @@ function Coreografia(){
                                     <div className="fondo2 w-100 d-flex align-items-center justify-content-center">
                                         <h3 className="fs-1 text-white marca">Atendiendo</h3>
                                     </div>
-                                    <div className=" d-flex gap-3 my-auto py-3">
-                                        
-                                        {!(usuarios.usuario3 === "Carlos" && mostrarCarlos || usuarios.usuario3 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario3}</p>
-                                        )}
-                                        
-                                        {!(usuarios.usuario4 === "Carlos" && mostrarCarlos || usuarios.usuario4 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario4}</p>
-                                        )}
-                                        
-                                        {!(usuarios.usuario5 === "Carlos" && mostrarCarlos || usuarios.usuario5 === "Florencia" && mostrarFlorencia) && (
-                                            <p className="mb-0 p-2 rounded bg-warning-subtle">{usuarios.usuario5}</p>
-                                        )}
-                                        
-                                        {!(usuarios.usuario6 === "Carlos" && mostrarCarlos || usuarios.usuario6 === "Florencia" && mostrarFlorencia) && (
-                                            (usuarios.usuario6 !== "Kevin") && (<p className="mb-0 p-2 rounded bg-secondary-subtle">{usuarios.usuario6}</p>
+                                    <div className="d-flex gap-3 my-auto py-3">
+                                        {[usuarios.usuario3, usuarios.usuario4, usuarios.usuario5, usuarios.usuario6].map((usuario, index) => (
+                                            !(usuario === "Carlos" && mostrarCarlos || usuario === "Florencia" && mostrarFlorencia) &&
+                                            (usuario !== "Kevin" || index < 3) && (
+                                                <p key={index} className="mb-0 p-2 rounded bg-warning-subtle">{usuario}</p>
                                             )
-                                        )}
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -250,11 +209,9 @@ function Coreografia(){
                                         <div className="fondo3 w-100 d-flex align-items-center justify-content-center">
                                             <h3 className="fs-1 text-white marca">En Cajas</h3>
                                         </div>
-                                        <div className=" d-flex gap-3 my-auto py-3">
-                                            
-                                        {(mostrarCarlos) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Carlos</p>)}
-                                        {(mostrarFlorencia) && (<p className="mb-0 p-2 rounded bg-secondary-subtle">Florencia</p>)}
-                                            
+                                        <div className="d-flex gap-3 my-auto py-3">
+                                            {mostrarCarlos && <p className="mb-0 p-2 rounded bg-secondary-subtle">Carlos</p>}
+                                            {mostrarFlorencia && <p className="mb-0 p-2 rounded bg-secondary-subtle">Florencia</p>}
                                         </div>
                                     </div>
                                 </div>
